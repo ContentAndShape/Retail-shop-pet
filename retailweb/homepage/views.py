@@ -1,5 +1,10 @@
+from os import name
 from django.shortcuts import render
-from django.http import HttpResponse
+from products.models import Product
 
-def index(request, name='index'):
-    return(HttpResponse('Hello'))
+def index(request):
+    return render(request, 'homepage/index.html')
+
+
+def about(request):
+    return render(request, 'homepage/about.html')

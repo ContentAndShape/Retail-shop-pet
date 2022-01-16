@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Retail Shop{% endblock %}
+
+{% block content %}
+<div class="container space-around">
+    <div>
+        {% block left %}
+        {% endblock %}
+    </div>
+    <div>
+        {% block center %}
+        {% endblock %}
+    </div>
+    <div>
+        {% block right %}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

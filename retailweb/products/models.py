@@ -11,15 +11,4 @@ class Product(models.Model):
      
 
     def __str__(self):
-        category_arr = {
-            self.is_boots: 'boots',
-            self.is_pants: 'pants',
-            self.is_hats: 'hats',
-            self.is_jackets: 'jackets',
-        }
-        
-        for i in category_arr:
-            if i == 1:
-                return f'name: {self.name}, category: {category_arr[i]}'
-
-        return f'name: {self.name}, category: no'
+        return self.name

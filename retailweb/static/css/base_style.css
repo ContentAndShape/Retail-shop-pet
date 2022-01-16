@@ -1,0 +1,6 @@
+.container {
+    display: flex;
+}
+.container.space-around {
+    justify-content: space-around;
+}
