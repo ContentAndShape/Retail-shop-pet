@@ -9,21 +9,23 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base_style.css' %}">
     {% block link %}
-    {% endblock %}
+    {% endblock link %}
 </head>
 <body>
     <div class="container space-around">
         <div>
-            <li><a href="{% url 'homepage' %}">Home</a></li>
+            <a href="{% url 'homepage' %}">Home</a>
         </div>
         <div>
-            <li><a href="{% url 'products' %}">Products</a></li>
+            <a href="{% url 'categories' %}">Search roducts</a>
         </div>
         <div>
-            <li><a href="">About</a></li>
+            <a href="#">About</a>
         </div>
     </div>
+    <div>
     {% block content %}
-    {% endblock %}
+    {% endblock content %}
+    </div>
 </body>
 </html>

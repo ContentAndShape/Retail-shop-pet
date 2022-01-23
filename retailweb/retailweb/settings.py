@@ -59,6 +59,7 @@ TEMPLATES = [
         'DIRS': [
             BASE_DIR / 'templates',
             BASE_DIR / 'homepage/templates/homepage',
+            BASE_DIR / 'products/templates/products',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -124,7 +125,8 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'homepage/static/homepage/css',
+    BASE_DIR / 'homepage/static/homepage/',
+    BASE_DIR / 'products/static/products/',
 ]
 
 MEDIA_ROOT = BASE_DIR / '/media/'

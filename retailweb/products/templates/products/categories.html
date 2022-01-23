@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Search Products{% endblock %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/categories_style.css' %}">
+{% endblock link %}
+
+{% block content %}
+<ul id="nav">
+    <li><a href="boots">Boots</a></li>
+    <p1>Clothes</p1>
+        <ul>
+            <li><a href="jackets">Jackets</a></li>
+            <li><a href="pants">Pants</a></li>
+        </ul>
+    <li><a href="hats">Hats</a></li>
+</ul>
+{% endblock content %}

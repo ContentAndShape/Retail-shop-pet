@@ -1,0 +1,20 @@
+{% extends "products_base.html" %}
+
+{% block title %}{{ product_category }}{% endblock %}
+
+{% block products_section %}
+{% if grouped_products_list %}
+    {% for pair in grouped_products_list %}
+        <p>
+            <div>
+                {{ pair.0.name }}
+            </div>
+            <div>
+                {{ pair.1.name }}
+            </div>
+        </p>
+    {% endfor %}
+{% else %}
+    <p1>No products are available at this moment.</p1>
+{% endif %}
+{% endblock products_section %}

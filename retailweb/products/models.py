@@ -2,12 +2,16 @@ from django.db import models
 
 class Product(models.Model):
     name = models.CharField(max_length=30)
-    collection = models.IntegerField()
+    description = models.CharField(max_length=50, default='no description')
+    collection = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    is_boots = models.BooleanField(default=0)
-    is_pants = models.BooleanField(default=0)
-    is_hats = models.BooleanField(default=0)
-    is_jackets = models.BooleanField(default=0)
+    category_choices = [
+        ('boots', 'boots'),
+        ('jackets', 'jackets'),
+        ('pants', 'pants'),
+        ('hats', 'hats'),
+    ]
+    category = models.CharField(max_length=15, choices=category_choices, default='no_category')
      
 
     def __str__(self):

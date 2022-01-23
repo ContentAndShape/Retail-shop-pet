@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/products_base.css' %}">
+{% endblock link %}
+
+{% block content %}
+<div>
+    <p1>Menu</p1>
+</div>
+<div class="space-around"> 
+    {% block products_section %}
+
+    {% endblock products_section %}
+</div>
+{% endblock content %}

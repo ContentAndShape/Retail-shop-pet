@@ -1,4 +1,3 @@
-from os import name
 from django.shortcuts import render
 from products.models import Product
 
