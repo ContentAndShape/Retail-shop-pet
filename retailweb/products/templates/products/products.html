@@ -6,11 +6,13 @@
 {% if grouped_products_list %}
     {% for pair in grouped_products_list %}
         <p>
-            <div>
-                {{ pair.0.name }}
-            </div>
-            <div>
-                {{ pair.1.name }}
+            <div class="item-pair">
+                <div class="item">
+                    {{ pair.0.name }}
+                </div>
+                <div class="item">
+                    {{ pair.1.name }}
+                </div>
             </div>
         </p>
     {% endfor %}

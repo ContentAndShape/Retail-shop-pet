@@ -1,0 +1,32 @@
+/* Menu bar */
+.menu {
+    background-color: rgb(84, 122, 247);
+    display: flex;
+    justify-content: space-around;
+    height: 5vh;
+    width: 100vw;
+}
+
+/* products container */
+.page {
+    display: flex;
+    justify-content: center;
+}
+
+.central {
+    margin: 1vh;
+    width: 50vw;
+    background-color: coral;
+    justify-content: space-between;
+}
+
+.item-pair {
+    background-color: cadetblue;
+    display: flex;
+    justify-content: space-around;
+}
+
+.item {
+    background-color: darkkhaki;
+    margin: 1% 2% 1%;
+}

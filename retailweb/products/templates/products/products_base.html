@@ -3,16 +3,19 @@
 {% load static %}
 
 {% block link %}
-<link rel="stylesheet" href="{% static 'css/products_base.css' %}">
+<link rel="stylesheet" href="{% static 'products/css/products_style.css' %}">
 {% endblock link %}
 
 {% block content %}
-<div>
-    <p1>Menu</p1>
+<div class="menu">
+    <p1 class="element"><a href="{% url 'categories' %}">Back</a></p1>
+    <p1 class="element">Menu</p1>
 </div>
-<div class="space-around"> 
-    {% block products_section %}
+<div class="page">
+    <div class="central"> 
+        {% block products_section %}
 
-    {% endblock products_section %}
+        {% endblock products_section %}
+    </div>
 </div>
 {% endblock content %}

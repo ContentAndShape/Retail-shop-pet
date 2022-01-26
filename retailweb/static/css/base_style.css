@@ -1,6 +1,27 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #cfcfcf;
+}
+
+.element {
+    margin: 1vh 1vw;
+}
+
+/* Navigation bar */
 .container {
+    height: 5vh;
+    width: 100vw;
     display: flex;
 }
-.container.space-around {
+
+.container.navigation-bar {
+    background-color: rgb(129, 129, 241);
     justify-content: space-around;
 }
+
+#nav, #nav ul{
+    list-style-type: none;
+}
+
