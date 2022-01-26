@@ -1,5 +1,7 @@
 {% extends "products_base.html" %}
 
+{% load static %}
+
 {% block title %}{{ product_category }}{% endblock %}
 
 {% block products_section %}
@@ -8,10 +10,18 @@
         <p>
             <div class="item-pair">
                 <div class="item">
-                    {{ pair.0.name }}
+                    <div class="pic">
+                        <img src="{{ pair.0.photo.url }}"> <!-- can be set dynamically, like this: {{ pair.0.photo }}, but browser raises security error -->
+                    </div>
+                        <p><strong>{{ pair.0.name }}</strong></p>
+                        <p class="desc">{{ pair.0.description }}</p>
                 </div>
                 <div class="item">
-                    {{ pair.1.name }}
+                    <div class="pic">
+                        <img src="{{ pair.1.photo.url }}">
+                    </div>
+                        <p><strong>{{ pair.1.name }}</strong></p>
+                        <p class="desc">{{ pair.1.description }}</p>
                 </div>
             </div>
         </p>
