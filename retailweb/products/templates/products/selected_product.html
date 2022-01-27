@@ -1,5 +1,6 @@
 {% extends "products_base.html" %}
 
 {% block content %}
-
+<h1>{{ selected_product.name }}</h1>
+<img src="{{ selected_product.photo.url }}">
 {% endblock content %}

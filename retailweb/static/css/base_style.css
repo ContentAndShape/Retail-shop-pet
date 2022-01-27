@@ -5,13 +5,20 @@ body {
     background: #ffffff;
 }
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
 .element {
     margin: 1vh 1vw;
 }
 
 /* Navigation bar */
 .container {
-    height: 5vh;
+    font-family: Helvetica;
+    font-size: 105%;
+    height: 7vh;
     width: 100vw;
     display: flex;
 }
@@ -19,6 +26,7 @@ body {
 .container.navigation-bar {
     background-color: rgb(129, 129, 241);
     justify-content: space-around;
+    align-items: center;
 }
 
 #nav, #nav ul{

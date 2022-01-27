@@ -6,23 +6,52 @@
 
 {% block products_section %}
 {% if grouped_products_list %}
-    {% for pair in grouped_products_list %}
+    {% for four in grouped_products_list %}
         <p>
-            <div class="item-pair">
+            <div class="item-four">
                 <div class="item">
                     <div class="pic">
-                        <img src="{{ pair.0.photo.url }}"> <!-- can be set dynamically, like this: {{ pair.0.photo }}, but browser raises security error -->
+                        <img src="{{ four.0.photo.url }}"> 
                     </div>
-                        <p><strong>{{ pair.0.name }}</strong></p>
-                        <p class="desc">{{ pair.0.description }}</p>
+                        <p><a href="{{ four.0.id }}"><strong>{{ four.0.name }}</strong></a></p>
+                        <p class="desc">{{ four.0.description }}</p>
                 </div>
-                <div class="item">
-                    <div class="pic">
-                        <img src="{{ pair.1.photo.url }}">
+                {% if four.1 %}
+                    <div class="item">
+                        <div class="pic">
+                            <img src="{{ four.1.photo.url }}">
+                        </div>
+                            <p><strong>{{ four.1.name }}</strong></p>
+                            <p class="desc">{{ four.1.description }}</p>
                     </div>
-                        <p><strong>{{ pair.1.name }}</strong></p>
-                        <p class="desc">{{ pair.1.description }}</p>
+                {% else %}
+                <div class="blank">
                 </div>
+                {% endif %}
+                {% if four.2 %}
+                    <div class="item">
+                        <div class="pic">
+                            <img src="{{ four.2.photo.url }}">
+                        </div>
+                            <p><strong>{{ four.2.name }}</strong></p>
+                            <p class="desc">{{ four.2.description }}</p>
+                    </div>
+                {% else %}
+                <div class="blank">
+                </div>
+                {% endif %}
+                {% if four.3 %}
+                    <div class="item">
+                        <div class="pic">
+                            <img src="{{ four.3.photo.url }}">
+                        </div>
+                            <p><strong>{{ four.3.name }}</strong></p>
+                            <p class="desc">{{ four.3.description }}</p>
+                    </div>
+                {% else %}
+                <div class="blank">
+                </div>
+                {% endif %}
             </div>
         </p>
     {% endfor %}

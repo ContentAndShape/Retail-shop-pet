@@ -1,5 +1,14 @@
+p {
+    margin: 5%;
+}
+
+a {
+    text-decoration: none;
+}
+
 /* Menu bar */
 .menu {
+    font-family: Helvetica;
     background-color: rgb(84, 122, 247);
     display: flex;
     justify-content: space-around;
@@ -8,9 +17,6 @@
 }
 
 /* products container */
-p {
-    margin: 5%;
-}
 
 .page {
     display: flex;
@@ -19,20 +25,26 @@ p {
 
 .central {
     margin: 1vh;
-    width: 35vw;
+    width: 75vw;
     justify-content: space-evenly;
 }
 
-.item-pair {
+.item-four {
     display: flex;
     justify-content: space-around;
 }
 
+.blank {
+    width: 200px;
+    margin: 1% 2% 1%;
+}
+
 .item {
+    width: 200px;
+    margin: 1% 2% 1%;
     border-style: solid;
     border-width: 1px;
     border-color: #cccccc;
-    margin: 1% 2% 1%;
     font-family: Helvetica;
 }
 
