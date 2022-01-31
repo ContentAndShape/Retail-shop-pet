@@ -16,7 +16,7 @@ a {
     width: 100vw;
 }
 
-/* products container */
+/* products.html - main container */
 
 .page {
     display: flex;
@@ -62,4 +62,30 @@ img {
 /* fonts */
 .desc {
     font-size: 90%;
+}
+
+/* selected_product.html - main container */
+.selected-page {
+    width: 100vw;
+    height: 90vh;
+    justify-content: space-between;
+    display: flex;
+}
+
+.left-half {
+    width: 35%;
+    height: 100%;
+    margin-right: 0.5%;
+}
+
+.right-half {
+    width: 65%;
+    height: 100%;
+    margin-left: 0.5%;
+}
+
+.selected-prod-pic {
+    margin: 2%;
+    width: 450px;
+    height: 550px;
 }

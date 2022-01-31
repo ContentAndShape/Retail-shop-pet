@@ -1,6 +1,19 @@
 {% extends "products_base.html" %}
 
-{% block content %}
-<h1>{{ selected_product.name }}</h1>
-<img src="{{ selected_product.photo.url }}">
-{% endblock content %}
+{% block title %}{{ product.category }} - {{ product.name }}{% endblock title %}
+
+{% block products_section %}
+<div class="selected-page">
+    <div class="left-half">
+        <div class="selected-prod-pic">
+            <img src="{{ product.photo.url }}">
+        </div>
+    </div>
+    <div class="right-half">
+        <h1>{{ product.name }}</h1>
+        <p style="font-size: 120%; margin: 0%;">{{ product.description }}</p>
+        <p style="font-size: 120%; margin: 0%;">Collection: {{ product.collection }}</p>
+        <p style="margin: 0%;">Price: {{ product.price }}</p>
+    </div>
+</div>
+{% endblock products_section %}
