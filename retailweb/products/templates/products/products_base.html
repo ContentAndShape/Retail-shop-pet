@@ -11,10 +11,7 @@
     <p1 class="element"><a href="{% url 'categories' %}">Back to categories</a></p1>
     <p1 class="element">Menu</p1>
 </div>
-<div class="page">
-    <div class="central"> 
-        {% block products_section %}
-        {% endblock products_section %}
-    </div>
+    {% block products_section %}
+    {% endblock products_section %}
 </div>
 {% endblock content %}

@@ -48,6 +48,25 @@ a {
     font-family: Helvetica;
 }
 
+.left {
+    align-items: flex-start;
+}
+
+.filters-container {
+    margin: 1%;
+}
+
+.filter-list {
+    list-style-type: none;
+}
+
+/* page switcher */
+.switcher {
+    margin: 2%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 /* images */
 img {
     width: 100%;

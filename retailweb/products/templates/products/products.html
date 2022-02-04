@@ -1,61 +1,96 @@
 {% extends "products_base.html" %}
 
 {% load static %}
+{% load products_extras %}
 
-{% block title %}{{ product_category }}{% endblock %}
+{% block title %}{{ category }}{% endblock %}
 
 {% block products_section %}
-{% if grouped_products_list %}
-    {% for four in grouped_products_list %}
-        <p>
-            <div class="item-four">
-                <div class="item">
-                    <div class="pic">
-                        <img src="{{ four.0.photo.url }}"> 
+        {% if products_list %}
+            <div class="page">
+                <div class="left">
+                    <div class="filters-container">
+                        <ul class="filter-list">
+                            <li><a href='?{% saved_query query_list "show-recent" 1 %}'>New first</a></li>
+                            <li><a href='?{% saved_query query_list "show-recent" 0 %}'>Old first</a></li>
+                        </ul>
                     </div>
-                        <p><a href="{{ four.0.id }}"><strong>{{ four.0.name }}</strong></a></p>
-                        <p class="desc">{{ four.0.description }}</p>
                 </div>
-                {% if four.1 %}
-                    <div class="item">
-                        <div class="pic">
-                            <img src="{{ four.1.photo.url }}">
+                <div class="central">
+                    {% for four in products_list %}
+                        <p>
+                            <div class="item-four">
+                                <div class="item">
+                                    <div class="pic">
+                                        <img src="{{ four.0.photo.url }}"> 
+                                    </div>
+                                    <p><a href="{{ four.0.id }}"><strong>{{ four.0.name }}</strong></a></p>
+                                    <p class="desc">{{ four.0.description }}</p>
+                                </div>
+                                {% if four.1 %}
+                                    <div class="item">
+                                        <div class="pic">
+                                            <img src="{{ four.1.photo.url }}">
+                                        </div>
+                                        <p><a href="{{ four.1.id }}"><strong>{{ four.1.name }}</strong></a></p>
+                                        <p class="desc">{{ four.1.description }}</p>
+                                    </div>
+                                {% else %}
+                                <div class="blank">
+                                </div>
+                                {% endif %}
+                                {% if four.2 %}
+                                    <div class="item">
+                                        <div class="pic">
+                                            <img src="{{ four.2.photo.url }}">
+                                        </div>
+                                        <p><a href="{{ four.2.id }}"><strong>{{ four.2.name }}</strong></a></p>
+                                        <p class="desc">{{ four.2.description }}</p>
+                                    </div>
+                                {% else %}
+                                <div class="blank">
+                                </div>
+                                {% endif %}
+                                {% if four.3 %}
+                                    <div class="item">
+                                        <div class="pic">
+                                            <img src="{{ four.3.photo.url }}">
+                                        </div>
+                                        <p><a href="{{ four.3.id }}"><strong>{{ four.3.name }}</strong></a></p>
+                                        <p class="desc">{{ four.3.description }}</p>
+                                    </div>
+                                {% else %}
+                                <div class="blank">
+                                </div>
+                                {% endif %}
+                            </div>
+                        </p>
+                    {% endfor %}
+                    {% if prev_page %}
+                        <div class="switcher">
+                            <div>
+                                <a href='?{% saved_query query_list "page" prev_page %}'>Previous</a>
+                            </div>
+                            <div>
+                                Page {{ page }}
+                            </div>
+                            <div>
+                                <a href='?{% saved_query query_list "page" next_page %}'>Next</a>
+                            </div>
                         </div>
-                            <p><a href="{{ four.1.id }}"><strong>{{ four.1.name }}</strong></a></p>
-                            <p class="desc">{{ four.1.description }}</p>
-                    </div>
-                {% else %}
-                <div class="blank">
-                </div>
-                {% endif %}
-                {% if four.2 %}
-                    <div class="item">
-                        <div class="pic">
-                            <img src="{{ four.2.photo.url }}">
+                    {% else %}
+                        <div class="switcher">
+                            <div>
+                                Page {{ page }}
+                            </div>
+                            <div>
+                                <a href='?{% saved_query query_list "page" next_page %}'>Next</a>
+                            </div>
                         </div>
-                            <p><a href="{{ four.2.id }}"><strong>{{ four.2.name }}</strong></a></p>
-                            <p class="desc">{{ four.2.description }}</p>
-                    </div>
-                {% else %}
-                <div class="blank">
-                </div>
-                {% endif %}
-                {% if four.3 %}
-                    <div class="item">
-                        <div class="pic">
-                            <img src="{{ four.3.photo.url }}">
-                        </div>
-                            <p><a href="{{ four.3.id }}"><strong>{{ four.3.name }}</strong></a></p>
-                            <p class="desc">{{ four.3.description }}</p>
-                    </div>
-                {% else %}
-                <div class="blank">
-                </div>
-                {% endif %}
-            </div>
-        </p>
-    {% endfor %}
-{% else %}
-    <p1>No products are available at this moment.</p1>
-{% endif %}
+                    {% endif %}
+        {% else %}
+            <h1>No products are available at this moment.</h1>
+        {% endif %}
+    </div>
+</div>
 {% endblock products_section %}
