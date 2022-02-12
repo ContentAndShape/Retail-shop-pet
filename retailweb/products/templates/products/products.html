@@ -11,6 +11,10 @@
                 <div class="left">
                     <div class="filters-container">
                         <ul class="filter-list">
+                            <li><a href='?{% saved_query query_list "items" 4 %}'>Show 4</a></li>
+                            <li><a href='?{% saved_query query_list "items" 8 %}'>Show 8</a></li>
+                            <li><a href='?{% saved_query query_list "items" 12 %}'>Show 12</a></li>
+                            <li><a href='?{% saved_query query_list "items" 24 %}'>Show 24</a></li>
                             <li><a href='?{% saved_query query_list "show-recent" 1 %}'>New first</a></li>
                             <li><a href='?{% saved_query query_list "show-recent" 0 %}'>Old first</a></li>
                         </ul>
@@ -66,28 +70,21 @@
                             </div>
                         </p>
                     {% endfor %}
-                    {% if prev_page %}
-                        <div class="switcher">
-                            <div>
-                                <a href='?{% saved_query query_list "page" prev_page %}'>Previous</a>
+                            <div class="switcher">
+                            {% if prev_page %}
+                                <div>
+                                    <a href='?{% saved_query query_list "page" prev_page %}'>Previous</a>
+                                </div>
+                            {% endif %}
+                                <div>
+                                    Page {{ page }}
+                                </div>
+                            {% if next_page %}
+                                <div>
+                                    <a href='?{% saved_query query_list "page" next_page %}'>Next</a>
+                                </div>
+                            {% endif %}
                             </div>
-                            <div>
-                                Page {{ page }}
-                            </div>
-                            <div>
-                                <a href='?{% saved_query query_list "page" next_page %}'>Next</a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="switcher">
-                            <div>
-                                Page {{ page }}
-                            </div>
-                            <div>
-                                <a href='?{% saved_query query_list "page" next_page %}'>Next</a>
-                            </div>
-                        </div>
-                    {% endif %}
         {% else %}
             <h1>No products are available at this moment.</h1>
         {% endif %}

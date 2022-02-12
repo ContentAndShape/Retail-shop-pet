@@ -60,6 +60,16 @@ a {
     list-style-type: none;
 }
 
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+    margin: .4rem 0;
+}
+
 /* page switcher */
 .switcher {
     margin: 2%;

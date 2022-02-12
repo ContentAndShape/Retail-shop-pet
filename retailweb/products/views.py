@@ -1,50 +1,52 @@
-from urllib.parse import parse_qsl, urlparse
+from urllib.parse import parse_qsl, urlencode, urlparse
 
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from .models import Product
 
 
-def categories(request):
+def products_categories(request):
     return render(request, 'products/categories.html')
 
 
 def index(request, selected_category):
-    query_set_list = parse_qsl(urlparse(request.get_full_path())[4])
-    
-    page = get_std_params(request)['page']
-    show_recent = get_std_params(request)['show-recent']
-    items_per_page = get_std_params(request)['items']
+    query_string_list = parse_qsl(urlparse(request.get_full_path())[4])
+    page = get_param(request)['page']
+    show_recent = get_param(request)['show-recent']
+    items_per_page = get_param(request)['items']
+    brand = get_param(request)['brand']
 
     if show_recent == 1:
-        general_query = Product.objects.filter(
+        relevance_filtered_query = Product.objects.filter(
             category=selected_category).order_by('-id')
     else:
-        general_query = Product.objects.filter(
+        relevance_filtered_query = Product.objects.filter(
             category=selected_category).order_by('id')
 
-    if page == 1:
-        prev_page = None
-    else:
-        prev_page = page - 1
+    quantity_filtered_query = filter_by_quantity(
+        relevance_filtered_query, items_per_page, page)
+    grouped_by4_query = group_by_four(quantity_filtered_query)
 
-    filtered_query = filter_by_quantity(
-        general_query, items_per_page, page)
-    grouped_products = group_by_four(filtered_query)
+    next_page = get_page_sequence(
+        page, items_per_page, relevance_filtered_query)['next_page']
+    prev_page = get_page_sequence(
+        page, items_per_page, relevance_filtered_query)['prev_page']
+
     context = {
-        'products_list': grouped_products,
+        'products_list': grouped_by4_query,
         'category': selected_category,
         'page': page,
-        'next_page': page + 1,
+        'next_page': next_page,
         'prev_page': prev_page,
-        'query_list': query_set_list,
+        'query_list': query_string_list,
+        'brand': brand,
     }
 
     return render(request, 'products.html', context)
 
 
 def selected_product(request, selected_category, selected_prod_id):
-    product_query = Product.objects.get(id=selected_prod_id)
+    product_query = get_object_or_404(Product, id=selected_prod_id)
     context = {
         'product': product_query,
     }
@@ -60,8 +62,8 @@ def filter_by_quantity(query_set, items_quantity, page):
     return(query_set[start:end])
 
 
-# Returns a list of tuples from an iterable arg
-# In this case each tuple contain 4 elements
+# Takes an iterable arg and forms a list of tuples out of it
+# Each tuple contain 4 elements
 def group_by_four(iter):
     iter = list(iter)
 
@@ -75,24 +77,51 @@ def group_by_four(iter):
         return group_by_four(iter)
 
 
-# Checks if any val of param is provided, if so - assigns new val
-# if not - provide std val
-def get_std_params(request):
-    #std param-val pairs
+# Compares params from request with params in "filters" ->
+# -> merges them in one dict
+def get_param(request):
+    # Standard vals to use if they were not given in request
     filters = {
         'page': 1,
         'items': 12,
         'show-recent': 1,
+        'brand': None,
     }
-    output = {}
 
     for param in filters:
-        value = int(filters.get(param))
+        try: 
+            value = int(filters.get(param))
+        except TypeError:
+            value = filters.get(param)
 
-        if param not in request.GET: #uses std val
-            output[param] = value
-        else: #replaces std val with provided one
-            provided_val = int(request.GET.get(param))
-            output[param] = provided_val
+        if param not in request.GET:
+            # uses standard val
+            filters[param] = value
+        else: 
+            # uses given val
+            given_val = int(request.GET.get(param))
+            filters[param] = given_val
     
+    return filters
+
+
+def get_page_sequence(page_num, items_on_page, query):
+    output = {}
+    items_in_query = len(query)
+
+    if page_num == 1:
+        output['prev_page'] = None
+    else:
+        output['prev_page'] = page_num - 1
+
+    if items_in_query % items_on_page:
+        last_page = items_in_query // items_on_page + 1
+    else:
+        last_page = items_in_query // items_on_page
+
+    if page_num == last_page:
+        output['next_page'] = None
+    else:
+        output['next_page'] = page_num + 1
+
     return output

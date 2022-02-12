@@ -17,7 +17,14 @@
             <a href="{% url 'homepage' %}">Home</a>
         </div>
         <div class="element">
-            <a href="{% url 'categories' %}">Search roducts</a>
+            <a href="{% url 'products_categories' %}">View categories</a>
+        </div>
+        <div>
+            <form action="{% url 'search_brand' %}" method="GET">
+                <label>Search by brand</label>
+                <input name="brand" type="text">
+                <button>Search</button>
+            </form>
         </div>
         <div class="element">
             <a href="#">About</a>
