@@ -1,3 +1,4 @@
+from os import name
 from urllib.parse import parse_qsl, urlparse
 
 from django.shortcuts import get_object_or_404, render
@@ -20,6 +21,9 @@ def index(request, selected_gender, selected_category):
         category=selected_category,
         gender=selected_gender,
     )
+
+    if brand:
+        general_query = general_query.filter(name=brand)
 
     if show_recent == 1:
         relevance_filtered_query = general_query.order_by('-id')
@@ -49,7 +53,9 @@ def index(request, selected_gender, selected_category):
     return render(request, 'products.html', context)
 
 
-def selected_product(request, selected_gender, selected_category, selected_prod_id):
+def selected_product(
+    request, selected_gender, 
+    selected_category, selected_prod_id):
     selected_product = get_object_or_404(Product, id=selected_prod_id)
 
     if selected_product.quantity == 0:
@@ -114,7 +120,8 @@ def get_param(request):
                 given_val = int(request.GET.get(param))
                 filters[param] = given_val
             except ValueError:
-                 filters[param] = given_val
+                given_val = request.GET.get(param)
+                filters[param] = given_val
     
     return filters
 
