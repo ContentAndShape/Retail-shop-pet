@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 
 from retailweb.settings import BASE_DIR
@@ -7,14 +8,15 @@ class Product(models.Model):
     description = models.CharField(max_length=50, default='no description')
     collection = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    sex_choices = [
-        ('male', 'male'),
-        ('female', 'female'),
+    quantity = models.IntegerField(default=0)
+    gender_choices = [
+        ('men', 'men'),
+        ('women', 'women'),
         ('unisex', 'unisex'),
     ]
-    sex = models.CharField(
+    gender = models.CharField(
         max_length=10,
-        choices=sex_choices,
+        choices=gender_choices,
         default='unisex',
     )
     category_choices = [

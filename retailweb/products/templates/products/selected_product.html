@@ -14,6 +14,11 @@
         <p style="font-size: 120%; margin: 0%;">{{ product.description }}</p>
         <p style="font-size: 120%; margin: 0%;">Collection: {{ product.collection }}</p>
         <p style="margin: 0%;">Price: {{ product.price }}</p>
+        {% if stock %}
+            <h4>Product available</h4>
+        {% else %}
+            <h4>Out of stock</h4>
+        {% endif %}
     </div>
 </div>
 {% endblock products_section %}

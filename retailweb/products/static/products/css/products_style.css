@@ -70,6 +70,11 @@ label {
     margin: .4rem 0;
 }
 
+.price {
+    margin: 5%;
+    font-size: 90%;
+}
+
 /* page switcher */
 .switcher {
     margin: 2%;
