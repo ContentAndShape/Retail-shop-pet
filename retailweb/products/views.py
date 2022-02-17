@@ -1,5 +1,4 @@
-from os import name
-from urllib.parse import parse_qsl, urlparse
+from urllib.parse import parse_qsl, urlencode, urlparse
 
 from django.shortcuts import get_object_or_404, render
 
@@ -13,9 +12,9 @@ def products_categories(request):
 def index(request, selected_gender, selected_category):
     query_string_list = parse_qsl(urlparse(request.get_full_path())[4])
     page = get_param(request)['page']
-    show_recent = get_param(request)['show-recent']
     items_per_page = get_param(request)['items']
     brand = get_param(request)['brand']
+    sort_parameter_dict = resolve_sort_params(query_string_list)
 
     general_query = Product.objects.filter(
         category=selected_category,
@@ -25,20 +24,26 @@ def index(request, selected_gender, selected_category):
     if brand:
         general_query = general_query.filter(name=brand)
 
-    if show_recent == 1:
-        relevance_filtered_query = general_query.order_by('-id')
-    else:
-        relevance_filtered_query = general_query.order_by('id')
+    if 'show-recent' in sort_parameter_dict:
+        if sort_parameter_dict['show-recent'] == '1':
+            general_query = general_query.order_by('-id')
+        if sort_parameter_dict['show-recent'] == '0':
+            general_query = general_query.order_by('id')
+    if 'price' in sort_parameter_dict:
+        if sort_parameter_dict['price'] == 'ascending':
+            general_query = general_query.order_by('price')
+        if sort_parameter_dict['price'] == 'descending':
+            general_query = general_query.order_by('-price')
 
     # divides query into pages
     quantity_filtered_query = filter_by_quantity(
-        relevance_filtered_query, items_per_page, page)
+        general_query, items_per_page, page)
     grouped_by4_query = group_by_four(quantity_filtered_query)
 
     next_page = get_page_sequence(
-        page, items_per_page, relevance_filtered_query)['next_page']
+        page, items_per_page, general_query)['next_page']
     prev_page = get_page_sequence(
-        page, items_per_page, relevance_filtered_query)['prev_page']
+        page, items_per_page, general_query)['prev_page']
 
     context = {
         'products_list': grouped_by4_query,
@@ -144,5 +149,30 @@ def get_page_sequence(page_num, items_on_page, query):
         output['next_page'] = None
     else:
         output['next_page'] = page_num + 1
+
+    return output
+
+
+# if there're several params - last added wins
+def resolve_sort_params(qsl):
+    sort_params = [
+    'show-recent',
+    'price',
+    ]
+    query_dict = dict(qsl)
+    query_sort_params = ()
+    output = {}
+
+    for param in query_dict:
+        if param in sort_params:
+            new_element = (param, )
+            query_sort_params = query_sort_params + new_element
+
+    try:
+        winner_param = query_sort_params[-1]
+        winner_val = query_dict[winner_param]
+        output[winner_param] = winner_val
+    except IndexError:
+        pass
 
     return output
