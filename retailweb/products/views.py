@@ -10,11 +10,11 @@ def products_categories(request):
 
 
 def index(request, selected_gender, selected_category):
-    query_string_list = parse_qsl(urlparse(request.get_full_path())[4])
+    query_string = urlparse(request.get_full_path())[4]
     page = get_param(request)['page']
     items_per_page = get_param(request)['items']
     brand = get_param(request)['brand']
-    sort_parameter_dict = resolve_sort_params(query_string_list)
+    sort_parameter_dict = resolve_sort_params(query_string)
 
     general_query = Product.objects.filter(
         category=selected_category,
@@ -29,6 +29,9 @@ def index(request, selected_gender, selected_category):
             general_query = general_query.order_by('-id')
         if sort_parameter_dict['show-recent'] == '0':
             general_query = general_query.order_by('id')
+    else:
+        general_query = general_query.order_by('-id')
+
     if 'price' in sort_parameter_dict:
         if sort_parameter_dict['price'] == 'ascending':
             general_query = general_query.order_by('price')
@@ -51,7 +54,7 @@ def index(request, selected_gender, selected_category):
         'page': page,
         'next_page': next_page,
         'prev_page': prev_page,
-        'query_list': query_string_list,
+        'query_string': query_string,
         'brand': brand,
     }
 
@@ -154,25 +157,26 @@ def get_page_sequence(page_num, items_on_page, query):
 
 
 # if there're several params - last added wins
-def resolve_sort_params(qsl):
+def resolve_sort_params(qs):
     sort_params = [
     'show-recent',
     'price',
     ]
-    query_dict = dict(qsl)
-    query_sort_params = ()
     output = {}
+    query_dict = dict(parse_qsl(qs))
+    sort_params_sequence = ()
 
-    for param in query_dict:
-        if param in sort_params:
+    for param in sort_params:
+        if param in query_dict:
             new_element = (param, )
-            query_sort_params = query_sort_params + new_element
+            sort_params_sequence = sort_params_sequence + new_element
 
-    try:
-        winner_param = query_sort_params[-1]
-        winner_val = query_dict[winner_param]
-        output[winner_param] = winner_val
-    except IndexError:
-        pass
+    # if no sort params in query
+    if len(sort_params_sequence) == 0:
+        return output
+
+    winner_param = sort_params_sequence[-1]
+    winner_val = query_dict[winner_param]
+    output[winner_param] = winner_val
 
     return output
