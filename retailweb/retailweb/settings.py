@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'homepage.apps.HomepageConfig',
     'products.apps.ProductsConfig',
+    'search.apps.SearchConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +61,7 @@ TEMPLATES = [
             BASE_DIR / 'templates/',
             BASE_DIR / 'homepage/templates/homepage/',
             BASE_DIR / 'products/templates/products/',
+            BASE_DIR / 'search/templates/search/',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

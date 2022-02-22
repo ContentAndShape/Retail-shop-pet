@@ -6,8 +6,8 @@
 {% block title %}{{ category }}{% endblock %}
 
 {% block products_section %}
-        {% if products_list %}
-            <div class="page">
+    {% if products_list %}
+        <div class="page">
                 <div class="left">
                     <div class="filters-container">
                         <ul class="filter-list">
@@ -116,6 +116,6 @@
         {% else %}
             <h1>No products are available at this moment.</h1>
         {% endif %}
-    </div>
-</div>
+                </div>
+        </div>
 {% endblock products_section %}

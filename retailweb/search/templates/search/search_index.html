@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <img src="{{ item.photo.url }}"> 
+    <h3 style="font-family: Helvetica;">{{ item.name }}</h3>
+    <p style="font-family: Helvetica;">{{ item.description }}</p>
+    <p style="font-family: Helvetica;">{{ item.price }}</p>
+{% endblock content %}
