@@ -1,4 +1,4 @@
-from urllib.parse import parse_qsl, urlencode, urlparse
+from urllib.parse import parse_qsl, urlparse
 
 from django.shortcuts import get_object_or_404, render
 
@@ -16,37 +16,37 @@ def index(request, selected_gender, selected_category):
     brand = get_param(request)['brand']
     sort_parameter_dict = resolve_sort_params(query_string)
 
-    general_query = Product.objects.filter(
+    general_db_query = Product.objects.filter(
         category=selected_category,
         gender=selected_gender,
     )
 
     if brand:
-        general_query = general_query.filter(name=brand)
+        general_db_query = general_db_query.filter(name=brand)
 
     if 'show-recent' in sort_parameter_dict:
         if sort_parameter_dict['show-recent'] == '1':
-            general_query = general_query.order_by('-id')
+            general_db_query = general_db_query.order_by('-id')
         if sort_parameter_dict['show-recent'] == '0':
-            general_query = general_query.order_by('id')
+            general_db_query = general_db_query.order_by('id')
     else:
-        general_query = general_query.order_by('-id')
+        general_db_query = general_db_query.order_by('-id')
 
     if 'price' in sort_parameter_dict:
         if sort_parameter_dict['price'] == 'ascending':
-            general_query = general_query.order_by('price')
+            general_db_query = general_db_query.order_by('price')
         if sort_parameter_dict['price'] == 'descending':
-            general_query = general_query.order_by('-price')
+            general_db_query = general_db_query.order_by('-price')
 
     # divides query into pages
     quantity_filtered_query = filter_by_quantity(
-        general_query, items_per_page, page)
+        general_db_query, items_per_page, page)
     grouped_by4_query = group_by_four(quantity_filtered_query)
 
     next_page = get_page_sequence(
-        page, items_per_page, general_query)['next_page']
+        page, items_per_page, general_db_query)['next_page']
     prev_page = get_page_sequence(
-        page, items_per_page, general_query)['prev_page']
+        page, items_per_page, general_db_query)['prev_page']
 
     context = {
         'products_list': grouped_by4_query,
@@ -79,16 +79,16 @@ def selected_product(
     return render(request, 'selected_product.html', context)
 
 
-# Determines the num of items to render on a single page
-def filter_by_quantity(query_set, items_quantity, page):
+# determines the num of items to render on a single page
+def filter_by_quantity(query, items_quantity, page):
     end = page * items_quantity
     start = end - items_quantity
     
-    return(query_set[start:end])
+    return(query[start:end])
 
 
-# Takes an iterable arg and forms a list of tuples
-# Each tuple contain 4 elements
+# takes an iterable arg and forms a list of tuples
+# each tuple contain 4 elements
 def group_by_four(iter):
     iter = list(iter)
 
@@ -102,7 +102,7 @@ def group_by_four(iter):
         return group_by_four(iter)
 
 
-# Compares params from request with params in "filters" ->
+# compares params from request with params in "filters" ->
 # -> merges them in one dict
 def get_param(request):
     # Standard vals to use if they are not in request
@@ -156,7 +156,7 @@ def get_page_sequence(page_num, items_on_page, query):
     return output
 
 
-# if there're several params - last added wins
+# returns the last added sorting param
 def resolve_sort_params(qs):
     sort_params = [
     'show-recent',
@@ -171,7 +171,7 @@ def resolve_sort_params(qs):
             new_element = (param, )
             sort_params_sequence = sort_params_sequence + new_element
 
-    # if no sort params in query
+    # if no sort params
     if len(sort_params_sequence) == 0:
         return output
 

@@ -42,9 +42,6 @@ a {
 .item {
     width: 200px;
     margin: 1% 2% 1%;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #cccccc;
     font-family: Helvetica;
 }
 
@@ -58,6 +55,29 @@ a {
 
 .filter-list {
     list-style-type: none;
+    font-family: Helvetica;
+}
+
+.button {
+    align-items: center;
+    display: flex;
+}
+
+.button.page-button {
+    width: 40%;
+    font-family: Helvetica;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cccccc;
+    box-shadow: 1px 1px rgb(212, 212, 212);
+}
+
+li {
+    margin: 3%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cccccc;
+    box-shadow: 1px 1px rgb(212, 212, 212);
 }
 
 label {
@@ -78,8 +98,21 @@ label {
 /* page switcher */
 .switcher {
     margin: 2%;
-    display: flex;
-    justify-content: space-evenly;
+}
+
+.switcher-left {
+    width: 30%;
+    display: inline-block;
+}
+
+.switcher-center {
+    width: 30%;
+    display: inline-block;
+}
+
+.switcher-right {
+    width: 30%;
+    display: inline-block;
 }
 
 /* images */

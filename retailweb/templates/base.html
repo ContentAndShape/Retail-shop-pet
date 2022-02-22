@@ -20,9 +20,9 @@
             <a href="{% url 'products_categories' %}">View categories</a>
         </div>
         <div>
-            <form action="{% url 'search_brand' %}" method="GET">
-                <label>Search by brand</label>
-                <input name="brand" type="text">
+            Search by id
+            <form action="{% url 'search' %}" method="GET">
+                <input name="id" type="text">
                 <button>Search</button>
             </form>
         </div>

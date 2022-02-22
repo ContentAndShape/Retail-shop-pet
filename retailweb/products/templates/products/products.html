@@ -11,14 +11,30 @@
                 <div class="left">
                     <div class="filters-container">
                         <ul class="filter-list">
-                            <li><a href='?{% saved_query query_string "items" 4 %}'>Show 4</a></li>
-                            <li><a href='?{% saved_query query_string "items" 8 %}'>Show 8</a></li>
-                            <li><a href='?{% saved_query query_string "items" 12 %}'>Show 12</a></li>
-                            <li><a href='?{% saved_query query_string "items" 24 %}'>Show 24</a></li>
-                            <li><a href='?{% saved_query query_string "show-recent" 1 %}'>New first</a></li>
-                            <li><a href='?{% saved_query query_string "show-recent" 0 %}'>Old first</a></li>
-                            <li><a href='?{% saved_query query_string "price" "ascending" %}'>Ascending price</a></li>
-                            <li><a href='?{% saved_query query_string "price" "descending" %}'>Descending price</a></li>
+                            <li>
+                                <a href='?{% saved_query query_string "items" 4 %}'><div class="button">Show 4</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "items" 8 %}'><div class="button">Show 8</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "items" 12 %}'><div class="button">Show 12</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "items" 24 %}'><div class="button">Show 24</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "show-recent" 1 %}'><div class="button">New first</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "show-recent" 0 %}'><div class="button">Old first</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "price" "ascending" %}'><div class="button">Ascending price</div></a>
+                            </li>
+                            <li>
+                                <a href='?{% saved_query query_string "price" "descending" %}'><div class="button">Descending price</div></a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -78,17 +94,23 @@
                     {% endfor %}
                             <div class="switcher">
                             {% if prev_page %}
-                                <div>
-                                    <a href='?{% saved_query query_string "page" prev_page %}'>Previous</a>
+                                <div class="switcher-left">
+                                    <div class="button page-button">
+                                        <a href='?{% saved_query query_string "page" prev_page %}'>Previous</a>
+                                    </div>
                                 </div>
                             {% endif %}
-                                <div>
+                            <div class="switcher-center">
+                                <div style="font-family: Helvetica; width: 40%;">
                                     Page {{ page }}
                                 </div>
+                            </div>
                             {% if next_page %}
-                                <div>
+                            <div class="switcher-right">
+                                <div class="button page-button">
                                     <a href='?{% saved_query query_string "page" next_page %}'>Next</a>
                                 </div>
+                            </div>
                             {% endif %}
                             </div>
         {% else %}
