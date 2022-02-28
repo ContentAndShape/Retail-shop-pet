@@ -10,19 +10,22 @@ def products_categories(request):
 
 
 def index(request, selected_gender, selected_category):
+
     query_string = urlparse(request.get_full_path())[4]
-    page = get_param(request)['page']
-    items_per_page = get_param(request)['items']
-    brand = get_param(request)['brand']
-    sort_parameter_dict = resolve_sort_params(query_string)
 
     general_db_query = Product.objects.filter(
         category=selected_category,
         gender=selected_gender,
     )
+    brand_tuple = tuple(set([product.name for product in general_db_query]))
+
+    brand = get_param(request)['brand']
 
     if brand:
-        general_db_query = general_db_query.filter(name=brand)
+        brand_list = dict(request.GET)['brand']
+        general_db_query = general_db_query.filter(name__in=brand_list)
+
+    sort_parameter_dict = resolve_sort_params(query_string)
 
     if 'show-recent' in sort_parameter_dict:
         if sort_parameter_dict['show-recent'] == '1':
@@ -39,6 +42,8 @@ def index(request, selected_gender, selected_category):
             general_db_query = general_db_query.order_by('-price')
 
     # divides query into pages
+    page = get_param(request)['page']
+    items_per_page = get_param(request)['items']
     quantity_filtered_query = filter_by_quantity(
         general_db_query, items_per_page, page)
     grouped_by4_query = group_by_four(quantity_filtered_query)
@@ -47,7 +52,7 @@ def index(request, selected_gender, selected_category):
         page, items_per_page, general_db_query)['next_page']
     prev_page = get_page_sequence(
         page, items_per_page, general_db_query)['prev_page']
-
+    
     context = {
         'products_list': grouped_by4_query,
         'category': selected_category,
@@ -55,7 +60,7 @@ def index(request, selected_gender, selected_category):
         'next_page': next_page,
         'prev_page': prev_page,
         'query_string': query_string,
-        'brand': brand,
+        'brand_tuple': brand_tuple,
     }
 
     return render(request, 'products.html', context)

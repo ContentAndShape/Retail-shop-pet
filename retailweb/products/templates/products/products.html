@@ -11,6 +11,7 @@
                 <div class="left">
                     <div class="filters-container">
                         <ul class="filter-list">
+                            Filter
                             <li>
                                 <a href='?{% saved_query query_string "items" 4 %}'><div class="button">Show 4</div></a>
                             </li>
@@ -23,6 +24,18 @@
                             <li>
                                 <a href='?{% saved_query query_string "items" 24 %}'><div class="button">Show 24</div></a>
                             </li>
+                            {% if brand_tuple %}
+                                Brands
+                                <form action="" method="GET">
+                                {% for brand in brand_tuple %}
+                                    <p style="font-size: 75%; margin: 0%;">
+                                        {{ brand }} <input name="brand" type="checkbox" value="{{ brand }}">
+                                    </p>
+                                {% endfor %}
+                                    <button>Submit</button>
+                                </form>
+                            {% endif %}
+                            Sort by
                             <li>
                                 <a href='?{% saved_query query_string "show-recent" 1 %}'><div class="button">New first</div></a>
                             </li>
