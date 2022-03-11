@@ -1,5 +1,6 @@
-from urllib.parse import parse_qsl, urlencode
+from urllib.parse import urlencode
 
+from django.http import QueryDict
 from django import template
 
 register = template.Library()
@@ -14,12 +15,13 @@ def saved_query(query_string, provided_param, provided_value):
     'show-recent',
     'price',
     ]
-    query_dict = dict(parse_qsl(query_string))
+    query_dict = QueryDict(query_string).dict()
 
     if provided_param in sort_params:
         for elem in sort_params:
             if elem != provided_param:
                 try:
+                    # Delete others except provided
                     del query_dict[elem]
                 except KeyError:
                     continue

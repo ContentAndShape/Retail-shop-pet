@@ -1,6 +1,5 @@
-from urllib.parse import parse_qsl, urlparse
-
 from django.shortcuts import get_object_or_404, render
+from django.http import QueryDict
 
 from .models import Product
 
@@ -10,8 +9,7 @@ def products_categories(request):
 
 
 def index(request, selected_gender, selected_category):
-
-    query_string = urlparse(request.get_full_path())[4]
+    query_string = request.META['QUERY_STRING']
 
     general_db_query = Product.objects.filter(
         category=selected_category,
@@ -84,7 +82,7 @@ def selected_product(
     return render(request, 'selected_product.html', context)
 
 
-# determines the num of items to render on a single page
+# num of items to render on page
 def filter_by_quantity(query, items_quantity, page):
     end = page * items_quantity
     start = end - items_quantity
@@ -92,8 +90,8 @@ def filter_by_quantity(query, items_quantity, page):
     return(query[start:end])
 
 
-# takes an iterable arg and forms a list of tuples
-# each tuple contain 4 elements
+# takes an iter and forms a list of tuples
+# each tuple contain 4 elems (4 elems in a row)
 def group_by_four(iter):
     iter = list(iter)
 
@@ -168,7 +166,7 @@ def resolve_sort_params(qs):
     'price',
     ]
     output = {}
-    query_dict = dict(parse_qsl(qs))
+    query_dict = QueryDict(qs).dict()
     sort_params_sequence = ()
 
     for param in sort_params:
