@@ -1,6 +1,10 @@
-.container {
-    display: flex;
+.item {
+    width: 200px;
+    margin: 1% 2% 1%;
+    font-family: Helvetica;
 }
-.container.space-around {
-    justify-content: space-around;
+
+.pic {
+    width: 200px;
+    height: 250px;
 }
