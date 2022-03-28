@@ -4,10 +4,8 @@ from retailweb.settings import BASE_DIR
 
 class Product(models.Model):
     name = models.CharField(max_length=30)
-    description = models.CharField(max_length=50, default='no description')
-    collection = models.IntegerField(default=0)
+    description = models.CharField(max_length=50, default='No description')
     price = models.DecimalField(max_digits=5, decimal_places=2)
-    quantity = models.IntegerField(default=0)
     gender_choices = [
         ('men', 'men'),
         ('women', 'women'),
@@ -18,22 +16,42 @@ class Product(models.Model):
         choices=gender_choices,
         default='unisex',
     )
-    category_choices = [
-        ('boots', 'boots'),
-        ('jackets', 'jackets'),
-        ('pants', 'pants'),
-        ('hats', 'hats'),
-    ]
-    category = models.CharField(
-        max_length=15, 
-        choices=category_choices, 
-        default='no_category'
-        )
     photo = models.ImageField(
         upload_to='products/', 
-        default=BASE_DIR / 'media/products/Null.jpg/'
+        default=str(BASE_DIR)+'/media/products/Null.jpg/',
         )
-     
+
+    def __str__(self):
+        return self.name
+
+
+class Shoes(Product):
+    size_40_quantity = models.IntegerField(default=0)
+    size_41_quantity = models.IntegerField(default=0)
+    size_42_quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class Clothes(Product):
+    Small_size_quantity = models.IntegerField(default=0)
+    Medium_size_quantity = models.IntegerField(default=0)
+    Large_size_quantity = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class Jackets(Clothes):
+    sleeve_length = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
+
+class Pants(Clothes):
+    leg_length = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
         return self.name

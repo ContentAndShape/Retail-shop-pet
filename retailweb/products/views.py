@@ -1,20 +1,31 @@
-from django.shortcuts import get_object_or_404, get_list_or_404, render
-from django.http import QueryDict
+from django.http import QueryDict, Http404
+from django.shortcuts import get_object_or_404, render
 
-from .models import Product
+from .models import Clothes, Jackets, Pants, Product, Shoes
 
 
 def products_categories(request):
     return render(request, 'products/categories.html')
 
 
+# Try rebuilding with class-based views
 def index(request, selected_gender, selected_category):
     query_string = request.META['QUERY_STRING']
+    models = {
+        'products': Product,
+        'clothes': Clothes,
+        'shoes': Shoes,
+        'jackets': Jackets,
+        'pants': Pants,
+    }
 
-    general_db_query = Product.objects.filter(
-        category=selected_category,
-        gender=selected_gender,
-    )
+    try:
+        general_db_query = models[selected_category].objects.filter(
+            gender=selected_gender,
+        )
+    except KeyError:
+        raise Http404('Requested category "%s" does not exist' %(selected_category))
+
     brand_tuple = tuple(set([product.name for product in general_db_query]))
 
     brand = get_param(request)['brand']
@@ -23,20 +34,20 @@ def index(request, selected_gender, selected_category):
         brand_list = dict(request.GET)['brand']
         general_db_query = general_db_query.filter(name__in=brand_list)
 
-    sort_parameter_dict = resolve_sort_params(query_string)
+    sorted_params_dict = resolve_sort_params(query_string)
 
-    if 'show-recent' in sort_parameter_dict:
-        if sort_parameter_dict['show-recent'] == '1':
+    if 'show-recent' in sorted_params_dict:
+        if sorted_params_dict['show-recent'] == '1':
             general_db_query = general_db_query.order_by('-id')
-        if sort_parameter_dict['show-recent'] == '0':
+        if sorted_params_dict['show-recent'] == '0':
             general_db_query = general_db_query.order_by('id')
     else:
         general_db_query = general_db_query.order_by('-id')
 
-    if 'price' in sort_parameter_dict:
-        if sort_parameter_dict['price'] == 'ascending':
+    if 'price' in sorted_params_dict:
+        if sorted_params_dict['price'] == 'ascending':
             general_db_query = general_db_query.order_by('price')
-        if sort_parameter_dict['price'] == 'descending':
+        if sorted_params_dict['price'] == 'descending':
             general_db_query = general_db_query.order_by('-price')
 
     # divides query into pages
@@ -69,10 +80,11 @@ def selected_product(
     selected_category, selected_prod_id):
     selected_product = get_object_or_404(Product, id=selected_prod_id)
 
-    if selected_product.quantity == 0:
-        stock = None
-    else:
-        stock = int(selected_product.quantity)
+    #if selected_product.quantity == 0:
+    #    stock = None
+    #else:
+    #    stock = int(selected_product.quantity)
+    stock = None
 
     context = {
         'product': selected_product,
